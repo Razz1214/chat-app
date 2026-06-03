@@ -36,6 +36,22 @@ socket.on("chat message", (data) => {
     li.innerHTML =
         `<strong>${data.username}</strong><br>${data.message}`;
 
-    document.getElementById("messages")
-            .appendChild(li);
+    const messages =
+        document.getElementById("messages");
+
+    messages.appendChild(li);
+
+    // Auto scroll
+    messages.scrollTop =
+        messages.scrollHeight;
+
+});
+document
+.getElementById("messageInput")
+.addEventListener("keypress", (e) => {
+
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+
 });
