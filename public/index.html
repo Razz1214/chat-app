@@ -6,23 +6,30 @@
 </head>
 <body>
 
-    <h1>Real-Time Chat App</h1>
-    <p>SERVER TEST 3000 - PHONE TEST</p>
+<div class="chat-container">
+
+    <div class="chat-header">
+        💬 Real-Time Chat
+    </div>
 
     <ul id="messages"></ul>
 
-    <input
-        type="text"
-        id="messageInput"
-        placeholder="Type a message..."
-    >
+    <div class="chat-input">
+        <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+        >
 
-    <button onclick="sendMessage()">
-        Send
-    </button>
+        <button onclick="sendMessage()">
+            Send
+        </button>
+    </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
