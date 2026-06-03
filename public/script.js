@@ -1,3 +1,4 @@
+console.log("VERSION 2");
 const socket = io({
     transports: ["websocket"]
 });
