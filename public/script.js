@@ -1,4 +1,4 @@
-console.log("VERSION 2");
+console.log("VERSION 3");
 
 const socket = io({
     transports: ["websocket"]
@@ -25,17 +25,15 @@ function sendMessage() {
         document.getElementById("username").value ||
         "Anonymous";
 
-    console.log("Sending:", {
-        username,
-        message
-    });
-
     socket.emit("chat message", {
         username,
         message
     });
 
     input.value = "";
+
+    document.getElementById("typing")
+            .textContent = "";
 }
 
 // Receive Message
@@ -65,6 +63,43 @@ socket.on("online users", (count) => {
         .getElementById("onlineUsers")
         .textContent =
         `👥 ${count} Online`;
+
+});
+
+// Typing Event Send
+document
+    .getElementById("messageInput")
+    .addEventListener("input", () => {
+
+        const username =
+            document
+            .getElementById("username")
+            .value || "Anonymous";
+
+        socket.emit(
+            "typing",
+            username
+        );
+
+    });
+
+// Typing Event Receive
+socket.on("typing", (username) => {
+
+    const typing =
+        document.getElementById("typing");
+
+    typing.textContent =
+        `${username} is typing...`;
+
+    clearTimeout(window.typingTimeout);
+
+    window.typingTimeout =
+        setTimeout(() => {
+
+            typing.textContent = "";
+
+        }, 1000);
 
 });
 
