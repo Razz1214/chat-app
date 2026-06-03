@@ -5,7 +5,7 @@ const socket = io({
 console.log("Script loaded");
 
 socket.on("connect", () => {
-    alert("Connected: " + socket.id);
+   
     console.log("Connected:", socket.id);
 });
 
@@ -23,7 +23,7 @@ function sendMessage() {
 }
 
 socket.on("chat message", (msg) => {
-    alert("Received: " + msg);
+   
     console.log("Received:", msg);
 
     const li = document.createElement("li");
