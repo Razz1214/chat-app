@@ -18,17 +18,24 @@ function sendMessage() {
 
     console.log("Sending:", message);
 
-    socket.emit("chat message", message);
+   const username =
+    document.getElementById("username").value || "Anonymous";
+
+socket.emit("chat message", {
+    username,
+    message
+});
 
     input.value = "";
 }
 
-socket.on("chat message", (msg) => {
-   
-    console.log("Received:", msg);
+socket.on("chat message", (data) => {
 
     const li = document.createElement("li");
-    li.textContent = msg;
 
-    document.getElementById("messages").appendChild(li);
+    li.innerHTML =
+        `<strong>${data.username}</strong><br>${data.message}`;
+
+    document.getElementById("messages")
+            .appendChild(li);
 });
