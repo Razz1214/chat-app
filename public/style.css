@@ -13,7 +13,7 @@ body {
     height: 100vh;
 }
 
-/* Main Chat Container */
+/* Chat Container */
 .chat-container {
     width: 90%;
     max-width: 900px;
@@ -23,7 +23,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Header */
@@ -31,8 +31,28 @@ body {
     background: #2563eb;
     color: white;
     padding: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     font-size: 24px;
     font-weight: bold;
+}
+
+/* Username */
+.username-box {
+    padding: 12px 20px;
+    background: #1e293b;
+}
+
+.username-box input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 15px;
 }
 
 /* Messages Area */
@@ -43,15 +63,32 @@ body {
     overflow-y: auto;
 }
 
+/* Message Bubble */
 #messages li {
     background: #334155;
     color: white;
     padding: 12px 18px;
-    margin-bottom: 10px;
-    border-radius: 12px;
+    margin-bottom: 12px;
+    border-radius: 16px;
     width: fit-content;
-    max-width: 70%;
+    max-width: 75%;
     word-wrap: break-word;
+    box-shadow: 0 3px 8px rgba(0,0,0,.2);
+}
+
+#messages li strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #93c5fd;
+}
+
+/* Typing Indicator */
+#typing {
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 14px;
+    padding: 0 20px 10px;
+    min-height: 20px;
 }
 
 /* Input Area */
@@ -67,6 +104,7 @@ body {
     padding: 15px;
     border: none;
     border-radius: 10px;
+    outline: none;
     font-size: 16px;
 }
 
@@ -78,8 +116,35 @@ button {
     border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
+    transition: 0.2s;
 }
 
 button:hover {
     background: #1d4ed8;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .chat-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .chat-header {
+        font-size: 18px;
+    }
+
+    #messageInput {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px 18px;
+    }
+
+    #messages li {
+        max-width: 85%;
+    }
 }

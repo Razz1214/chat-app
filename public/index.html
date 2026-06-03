@@ -9,19 +9,32 @@
 <div class="chat-container">
 
     <div class="chat-header">
-        💬 Real-Time Chat
+
+        <div>
+            💬 Real-Time Chat
+        </div>
+
+        <div id="onlineUsers">
+            👥 0 Online
+        </div>
+
     </div>
+
     <div class="username-box">
-    <input
-        type="text"
-        id="username"
-        placeholder="Enter your name"
-    >
-</div>
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter your name"
+        >
+    </div>
 
     <ul id="messages"></ul>
 
+    <!-- Typing Indicator -->
+    <div id="typing"></div>
+
     <div class="chat-input">
+
         <input
             type="text"
             id="messageInput"
@@ -31,6 +44,7 @@
         <button onclick="sendMessage()">
             Send
         </button>
+
     </div>
 
 </div>

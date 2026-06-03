@@ -1,4 +1,5 @@
 console.log("VERSION 2");
+
 const socket = io({
     transports: ["websocket"]
 });
@@ -6,32 +7,42 @@ const socket = io({
 console.log("Script loaded");
 
 socket.on("connect", () => {
-   
     console.log("Connected:", socket.id);
 });
 
+// Send Message
 function sendMessage() {
-    const input = document.getElementById("messageInput");
-    const message = input.value;
+
+    const input =
+        document.getElementById("messageInput");
+
+    const message =
+        input.value;
 
     if (!message.trim()) return;
 
-    console.log("Sending:", message);
+    const username =
+        document.getElementById("username").value ||
+        "Anonymous";
 
-   const username =
-    document.getElementById("username").value || "Anonymous";
+    console.log("Sending:", {
+        username,
+        message
+    });
 
-socket.emit("chat message", {
-    username,
-    message
-});
+    socket.emit("chat message", {
+        username,
+        message
+    });
 
     input.value = "";
 }
 
+// Receive Message
 socket.on("chat message", (data) => {
 
-    const li = document.createElement("li");
+    const li =
+        document.createElement("li");
 
     li.innerHTML =
         `<strong>${data.username}</strong><br>${data.message}`;
@@ -41,17 +52,29 @@ socket.on("chat message", (data) => {
 
     messages.appendChild(li);
 
-    // Auto scroll
+    // Auto Scroll
     messages.scrollTop =
         messages.scrollHeight;
 
 });
-document
-.getElementById("messageInput")
-.addEventListener("keypress", (e) => {
 
-    if (e.key === "Enter") {
-        sendMessage();
-    }
+// Online Users Count
+socket.on("online users", (count) => {
+
+    document
+        .getElementById("onlineUsers")
+        .textContent =
+        `👥 ${count} Online`;
 
 });
+
+// Enter Key Support
+document
+    .getElementById("messageInput")
+    .addEventListener("keypress", (e) => {
+
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+
+    });

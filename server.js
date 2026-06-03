@@ -12,32 +12,45 @@ const io = new Server(server, {
 });
 
 app.use(express.static("public"));
+
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
+// Online users counter
+let onlineUsers = 0;
+
 io.on("connection", (socket) => {
-   console.log("User Connected:", socket.id);
+
+    onlineUsers++;
+
+    io.emit("online users", onlineUsers);
+
+    console.log("User Connected:", socket.id);
+    console.log("Online Users:", onlineUsers);
 
     socket.on("chat message", (msg) => {
-   console.log("Message received from", socket.id, ":", msg);
 
-    console.log("Broadcasting:", msg);
-console.log("Connected clients:", io.engine.clientsCount);
+        console.log(
+            "Message received from",
+            socket.id,
+            ":",
+            msg
+        );
 
-io.fetchSockets().then((sockets) => {
-    console.log(
-        "Socket IDs:",
-        sockets.map(s => s.id)
-    );
-});
-
-io.emit("chat message", msg);
-});
+        io.emit("chat message", msg);
+    });
 
     socket.on("disconnect", () => {
-        console.log("User Disconnected");
+
+        onlineUsers--;
+
+        io.emit("online users", onlineUsers);
+
+        console.log("User Disconnected:", socket.id);
+        console.log("Online Users:", onlineUsers);
     });
+
 });
 
 const PORT = process.env.PORT || 3000;
