@@ -1,8 +1,10 @@
-console.log("VERSION 3");
+console.log("VERSION 4");
 
 const socket = io({
     transports: ["websocket"]
 });
+
+let myUsername = "";
 
 console.log("Script loaded");
 
@@ -17,46 +19,77 @@ function sendMessage() {
         document.getElementById("messageInput");
 
     const message =
-        input.value;
+        input.value.trim();
 
-    if (!message.trim()) return;
+    if (!message) return;
 
     const username =
         document.getElementById("username").value ||
         "Anonymous";
 
-    const time =
-    new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
+    myUsername = username;
 
-socket.emit("chat message", {
-    username,
-    message,
-    time
-});
+    const time =
+        new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+    socket.emit("chat message", {
+        username,
+        message,
+        time
+    });
 
     input.value = "";
 
     document.getElementById("typing")
-            .textContent = "";
+        .textContent = "";
 }
 
 // Receive Message
 socket.on("chat message", (data) => {
 
+    const messages =
+        document.getElementById("messages");
+
     const li =
         document.createElement("li");
 
-    li.innerHTML = `
-    <strong>${data.username}</strong>
-    <div>${data.message}</div>
-    <small>${data.time}</small>
-`;
+    // Right side for my messages
+    if (data.username === myUsername) {
+        li.classList.add("my-message");
+    }
+    // Left side for others
+    else {
+        li.classList.add("other-message");
+    }
 
-    const messages =
-        document.getElementById("messages");
+    // Show username only when sender changes
+    const lastMessage =
+        messages.lastElementChild;
+
+    let showUsername = true;
+
+    if (
+        lastMessage &&
+        lastMessage.dataset.username === data.username
+    ) {
+        showUsername = false;
+    }
+
+    li.dataset.username = data.username;
+
+    li.innerHTML = `
+        ${showUsername
+            ? `<strong>${data.username}</strong>`
+            : ""
+        }
+
+        <div>${data.message}</div>
+
+        <small>${data.time}</small>
+    `;
 
     messages.appendChild(li);
 

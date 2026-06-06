@@ -14,6 +14,7 @@ body {
 }
 
 /* Chat Container */
+
 .chat-container {
     width: 90%;
     max-width: 900px;
@@ -23,24 +24,26 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 30px rgba(0,0,0,.4);
 }
 
 /* Header */
+
 .chat-header {
     background: #2563eb;
     color: white;
-    padding: 20px;
+    padding: 18px 20px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
-/* Username */
+/* Username Input */
+
 .username-box {
     padding: 12px 20px;
     background: #1e293b;
@@ -50,63 +53,100 @@ body {
     width: 100%;
     padding: 12px;
     border: none;
-    border-radius: 10px;
     outline: none;
+    border-radius: 10px;
     font-size: 15px;
 }
 
 /* Messages Area */
+
 #messages {
     flex: 1;
     list-style: none;
     padding: 20px;
     overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-/* Message Bubble */
+/* Common Bubble */
+
 #messages li {
-    background: #334155;
-    color: white;
-    padding: 12px 18px;
-    margin-bottom: 12px;
-    border-radius: 16px;
-    width: fit-content;
+    padding: 12px 16px;
+    border-radius: 18px;
     max-width: 75%;
     word-wrap: break-word;
     box-shadow: 0 3px 8px rgba(0,0,0,.2);
 }
 
+/* My Messages */
+
+.my-message {
+    align-self: flex-end;
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 6px;
+}
+
+/* Other Messages */
+
+.other-message {
+    align-self: flex-start;
+    background: #334155;
+    color: white;
+    border-bottom-left-radius: 6px;
+}
+
+/* Username */
+
 #messages li strong {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    font-size: 13px;
     color: #93c5fd;
 }
 
+/* Timestamp */
+
+#messages li small {
+    display: block;
+    margin-top: 6px;
+    font-size: 10px;
+    opacity: 0.8;
+    text-align: right;
+}
+
 /* Typing Indicator */
+
 #typing {
     color: #94a3b8;
     font-style: italic;
     font-size: 14px;
+    min-height: 22px;
     padding: 0 20px 10px;
-    min-height: 20px;
 }
 
 /* Input Area */
+
 .chat-input {
     display: flex;
+    gap: 10px;
     padding: 15px;
     background: #0f172a;
-    gap: 10px;
 }
 
 #messageInput {
     flex: 1;
     padding: 15px;
     border: none;
-    border-radius: 10px;
     outline: none;
+    border-radius: 10px;
     font-size: 16px;
 }
+
+/* Button */
 
 button {
     background: #2563eb;
@@ -115,8 +155,8 @@ button {
     padding: 15px 25px;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.2s;
+    font-size: 15px;
+    transition: .2s;
 }
 
 button:hover {
@@ -124,6 +164,7 @@ button:hover {
 }
 
 /* Mobile */
+
 @media (max-width: 768px) {
 
     .chat-container {
@@ -136,6 +177,10 @@ button:hover {
         font-size: 18px;
     }
 
+    #messages li {
+        max-width: 85%;
+    }
+
     #messageInput {
         font-size: 14px;
     }
@@ -143,14 +188,4 @@ button:hover {
     button {
         padding: 12px 18px;
     }
-
-    #messages li {
-        max-width: 85%;
-    }
-}
-#messages li small {
-    display: block;
-    margin-top: 6px;
-    font-size: 11px;
-    color: #cbd5e1;
 }
