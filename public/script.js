@@ -19,6 +19,9 @@ function joinChat() {
     }
 
     myUsername = username;
+    document.getElementById("userInfo")
+    .textContent =
+    `👤 ${myUsername} • 👥 0 Online`;
 
     document
         .getElementById("usernameBox")
@@ -117,9 +120,9 @@ socket.on("chat message", (data) => {
 socket.on("online users", (count) => {
 
     document
-        .getElementById("onlineUsers")
+        .getElementById("userInfo")
         .textContent =
-        `👥 ${count} Online`;
+        `👤 ${myUsername || "Guest"} • 👥 ${count} Online`;
 
 });
 
