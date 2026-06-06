@@ -1,11 +1,19 @@
-console.log("VERSION 5");
+console.log("VERSION 6");
 
 const socket = io({
     transports: ["websocket"]
 });
 
 let myUsername = "";
+let onlineCount = 0;
 
+console.log("Script loaded");
+
+socket.on("connect", () => {
+    console.log("Connected:", socket.id);
+});
+
+// Join Chat
 function joinChat() {
 
     const username =
@@ -19,22 +27,18 @@ function joinChat() {
     }
 
     myUsername = username;
-    document.getElementById("userInfo")
-    .textContent =
-    `👤 ${myUsername} • 👥 0 Online`;
 
     document
         .getElementById("usernameBox")
         .style.display = "none";
 
+    document
+        .getElementById("userInfo")
+        .textContent =
+        `👤 ${myUsername} • 👥 ${onlineCount} Online`;
+
     console.log("Joined as:", myUsername);
 }
-
-console.log("Script loaded");
-
-socket.on("connect", () => {
-    console.log("Connected:", socket.id);
-});
 
 // Send Message
 function sendMessage() {
@@ -119,10 +123,17 @@ socket.on("chat message", (data) => {
 // Online Users Count
 socket.on("online users", (count) => {
 
+    onlineCount = count;
+
+    console.log(
+        "ONLINE USERS RECEIVED:",
+        onlineCount
+    );
+
     document
         .getElementById("userInfo")
         .textContent =
-        `👤 ${myUsername || "Guest"} • 👥 ${count} Online`;
+        `👤 ${myUsername || "Guest"} • 👥 ${onlineCount} Online`;
 
 });
 
