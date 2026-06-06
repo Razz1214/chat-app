@@ -17,18 +17,22 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
-// Online users counter
-let onlineUsers = 0;
-
 io.on("connection", (socket) => {
 
-    onlineUsers++;
-
-    io.emit("online users", onlineUsers);
-
     console.log("User Connected:", socket.id);
-    console.log("Online Users:", onlineUsers);
 
+    // Send online users count
+    io.emit(
+        "online users",
+        io.engine.clientsCount
+    );
+
+    console.log(
+        "Actual Clients:",
+        io.engine.clientsCount
+    );
+
+    // Chat Messages
     socket.on("chat message", (msg) => {
 
         console.log(
@@ -40,23 +44,35 @@ io.on("connection", (socket) => {
 
         io.emit("chat message", msg);
     });
+
+    // Typing Indicator
     socket.on("typing", (username) => {
 
-    socket.broadcast.emit(
-        "typing",
-        username
-    );
+        socket.broadcast.emit(
+            "typing",
+            username
+        );
 
-});
+    });
 
+    // Disconnect
     socket.on("disconnect", () => {
 
-        onlineUsers--;
+        console.log(
+            "User Disconnected:",
+            socket.id
+        );
 
-        io.emit("online users", onlineUsers);
+        io.emit(
+            "online users",
+            io.engine.clientsCount
+        );
 
-        console.log("User Disconnected:", socket.id);
-        console.log("Online Users:", onlineUsers);
+        console.log(
+            "Actual Clients After Disconnect:",
+            io.engine.clientsCount
+        );
+
     });
 
 });
@@ -64,5 +80,9 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server Running on Port ${PORT}`);
+
+    console.log(
+        `Server Running on Port ${PORT}`
+    );
+
 });
