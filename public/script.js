@@ -1,10 +1,31 @@
-console.log("VERSION 4");
+console.log("VERSION 5");
 
 const socket = io({
     transports: ["websocket"]
 });
 
 let myUsername = "";
+
+function joinChat() {
+
+    const username =
+        document.getElementById("username")
+        .value
+        .trim();
+
+    if (!username) {
+        alert("Please enter your name");
+        return;
+    }
+
+    myUsername = username;
+
+    document
+        .getElementById("usernameBox")
+        .style.display = "none";
+
+    console.log("Joined as:", myUsername);
+}
 
 console.log("Script loaded");
 
@@ -15,6 +36,11 @@ socket.on("connect", () => {
 // Send Message
 function sendMessage() {
 
+    if (!myUsername) {
+        alert("Please join chat first");
+        return;
+    }
+
     const input =
         document.getElementById("messageInput");
 
@@ -23,12 +49,6 @@ function sendMessage() {
 
     if (!message) return;
 
-    const username =
-        document.getElementById("username").value ||
-        "Anonymous";
-
-    myUsername = username;
-
     const time =
         new Date().toLocaleTimeString([], {
             hour: "2-digit",
@@ -36,7 +56,7 @@ function sendMessage() {
         });
 
     socket.emit("chat message", {
-        username,
+        username: myUsername,
         message,
         time
     });
@@ -56,16 +76,12 @@ socket.on("chat message", (data) => {
     const li =
         document.createElement("li");
 
-    // Right side for my messages
     if (data.username === myUsername) {
         li.classList.add("my-message");
-    }
-    // Left side for others
-    else {
+    } else {
         li.classList.add("other-message");
     }
 
-    // Show username only when sender changes
     const lastMessage =
         messages.lastElementChild;
 
@@ -93,10 +109,8 @@ socket.on("chat message", (data) => {
 
     messages.appendChild(li);
 
-    // Auto Scroll
     messages.scrollTop =
         messages.scrollHeight;
-
 });
 
 // Online Users Count
@@ -114,20 +128,19 @@ document
     .getElementById("messageInput")
     .addEventListener("input", () => {
 
-        const username =
-            document
-            .getElementById("username")
-            .value || "Anonymous";
+        if (!myUsername) return;
 
         socket.emit(
             "typing",
-            username
+            myUsername
         );
 
     });
 
 // Typing Event Receive
 socket.on("typing", (username) => {
+
+    if (username === myUsername) return;
 
     const typing =
         document.getElementById("typing");

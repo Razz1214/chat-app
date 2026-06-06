@@ -21,15 +21,22 @@
         </div>
 
     </div>
+<div class="username-box" id="usernameBox">
 
-    <div class="username-box">
-        <input
-            type="text"
-            id="username"
-            placeholder="Enter your name"
-        >
-    </div>
+    <input
+        type="text"
+        id="username"
+        placeholder="Enter your name"
+        autocomplete="off"
+    >
 
+    <button
+        id="joinBtn"
+        onclick="joinChat()">
+        Join Chat
+    </button>
+
+</div>
     <ul id="messages"></ul>
 
     <!-- Typing Indicator -->
