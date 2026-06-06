@@ -25,10 +25,17 @@ function sendMessage() {
         document.getElementById("username").value ||
         "Anonymous";
 
-    socket.emit("chat message", {
-        username,
-        message
+    const time =
+    new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
     });
+
+socket.emit("chat message", {
+    username,
+    message,
+    time
+});
 
     input.value = "";
 
@@ -42,8 +49,11 @@ socket.on("chat message", (data) => {
     const li =
         document.createElement("li");
 
-    li.innerHTML =
-        `<strong>${data.username}</strong><br>${data.message}`;
+    li.innerHTML = `
+    <strong>${data.username}</strong>
+    <div>${data.message}</div>
+    <small>${data.time}</small>
+`;
 
     const messages =
         document.getElementById("messages");

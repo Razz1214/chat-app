@@ -148,3 +148,9 @@ button:hover {
         max-width: 85%;
     }
 }
+#messages li small {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #cbd5e1;
+}
